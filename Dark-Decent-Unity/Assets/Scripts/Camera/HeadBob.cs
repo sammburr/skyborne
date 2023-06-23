@@ -12,8 +12,8 @@ public class HeadBob : MonoBehaviour{
     public float amplitude;
     public float frequency;
 
-    [Header("Transforms n shit")]
-    public Transform camera;
+     [Header("Transforms n shit")]
+    public Transform cameraObject;
     public Transform cameraHolder;
     public Rigidbody playerRigidBody;
 
@@ -22,7 +22,7 @@ public class HeadBob : MonoBehaviour{
 
 
     private void Awake(){
-        startPos = camera.localPosition;
+        startPos = cameraObject.localPosition;
     }
 
     
@@ -34,7 +34,7 @@ public class HeadBob : MonoBehaviour{
     }
 
     private void PlayMotion(Vector3 motion){
-        camera.localPosition += motion;
+        cameraObject.localPosition += motion;
     }
     private void CheckMotion(){
         float speed = new Vector3(playerRigidBody.velocity.x, 0, playerRigidBody.velocity.z).magnitude;
@@ -46,8 +46,8 @@ public class HeadBob : MonoBehaviour{
     }
 
     private void ResetPosition(){
-        if (camera.localPosition == startPos) return;
-        camera.localPosition = Vector3.Lerp(camera.localPosition, startPos, 5f * Time.deltaTime);
+        if (cameraObject.localPosition == startPos) return;
+        cameraObject.localPosition = Vector3.Lerp(cameraObject.localPosition, startPos, 5f * Time.deltaTime);
     }
 
     private Vector3 FocusTarget(){
@@ -63,7 +63,7 @@ public class HeadBob : MonoBehaviour{
         if (enable) {
             CheckMotion();
             ResetPosition();
-            camera.LookAt(FocusTarget());
+            cameraObject.LookAt(FocusTarget());
         }
     }
 

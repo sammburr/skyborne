@@ -1,53 +1,88 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using UnityEditor;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
-public class PlayerMovement : MonoBehaviour
-{
+//https://www.youtube.com/watch?v=f473C43s8nE
+public class PlayerMovement : MonoBehaviour{
 
-	[Header("Flags")]
-	public bool CanMove = true;
+	public bool CanMove;
+	public float moveSpeed;
+	public float maxSpeed;
 
-	[Header("Movement")]
-	public Rigidbody rb;
-	public Transform facing;
+	private float horizontalInput;
+	private float verticalInput;
+	private bool shiftInput;
 
-	public float speed;
+	private float maxStamina = 1000;
+	private float staminaLossRate = 5;
+	private float staminaGainRate = 3;
+	private float stamina;
+	
+	public Transform orientation;
+	
+	private Rigidbody rb;
 
-	private void Start() {
 
-		rb.freezeRotation = true;
 
-	}	
 
-	private void FixedUpdate() {
-
-		if(CanMove)
-			MovePlayer();
-
+	private void GetInput(){
+		horizontalInput = Input.GetAxis("Horizontal");
+		verticalInput = Input.GetAxis("Vertical");
+		shiftInput = Input.GetKey(KeyCode.LeftShift);
 	}
 
-	private void MovePlayer() {
-
-		float movementX = Input.GetAxis("Horizontal");
-		float movementY = Input.GetAxis("Vertical");
-
-		Vector3 force = movementX * facing.right * Time.fixedTime + 
-			movementY * facing.forward * Time.fixedTime;
-
-		Vector3 velocityXZ = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-		if(velocityXZ.magnitude > speed) {
-			
-			Vector3 limitedVel = velocityXZ.normalized * speed;
-			rb.velocity = new Vector3(limitedVel.x, velocityXZ.y, limitedVel.z);
-
-		} else {
-
-			rb.AddForce(speed * force.normalized, ForceMode.Force);
-
+	private void MovePlayer(){
+		float mult = 1;
+		if (shiftInput && stamina != 0) {
+			mult = 4;
 		}
 
+
+
+		Vector3 force = horizontalInput * orientation.right * Time.fixedTime + 
+		                verticalInput * orientation.forward * Time.fixedTime;
+
+		Vector3 velocityXZ = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+		
+
+		rb.AddForce(force.normalized * moveSpeed * mult, ForceMode.Force);
 	}
 
+	private void manageStamina(){
+		if (shiftInput) {
+			if (stamina > 0 + staminaLossRate) {
+				stamina -= staminaLossRate;
+			} else {
+				stamina = 0;
+			} 
+		}
+		else {
+			if (stamina < maxStamina - staminaGainRate) {
+				stamina += staminaGainRate;
+			} else {
+				stamina = maxStamina;
+			}
+		}
+	}
+
+	
+	private void Start(){
+		rb = GetComponent<Rigidbody>();
+		rb.freezeRotation = true;
+		stamina = maxStamina;
+	}
+	
+	private void Update(){
+		GetInput();
+		manageStamina();
+		Debug.Log(stamina);
+	}
+
+	private void FixedUpdate(){
+		MovePlayer();
+	}
 }
