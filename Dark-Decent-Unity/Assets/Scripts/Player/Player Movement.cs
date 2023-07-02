@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using Vector3 = UnityEngine.Vector3;
 
 //https://www.youtube.com/watch?v=f473C43s8nE
@@ -18,30 +19,38 @@ public class PlayerMovement : MonoBehaviour{
 	private bool shiftInput;
 
 	private float maxStamina = 1000;
-	private float staminaLossRate = 5;
-	private float staminaGainRate = 3;
+	private float staminaLossRate = 0.8f;
+	private float staminaGainRate = 0.4f;
 	private float stamina;
+	public bool running;
+
+	public GameObject staminaSlider;
+	private Slider slider;
 	
 	public Transform orientation;
 	
 	private Rigidbody rb;
-
-
-
-
+	
+	private void Start(){
+		rb = GetComponent<Rigidbody>();
+		rb.freezeRotation = true;
+		stamina = maxStamina;
+		slider = staminaSlider.GetComponent<Slider>();
+		running = false;
+	}
+	
 	private void GetInput(){
 		horizontalInput = Input.GetAxis("Horizontal");
 		verticalInput = Input.GetAxis("Vertical");
 		shiftInput = Input.GetKey(KeyCode.LeftShift);
 	}
-
 	private void MovePlayer(){
-		float mult = 1;
+		float moveMult = 1;
+		running = false;
 		if (shiftInput && stamina != 0) {
-			mult = 4;
+			running = true;
+			moveMult = 2;
 		}
-
-
 
 		Vector3 force = horizontalInput * orientation.right * Time.fixedTime + 
 		                verticalInput * orientation.forward * Time.fixedTime;
@@ -49,7 +58,7 @@ public class PlayerMovement : MonoBehaviour{
 		Vector3 velocityXZ = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 		
 
-		rb.AddForce(force.normalized * moveSpeed * mult, ForceMode.Force);
+		rb.AddForce(force.normalized * moveSpeed * moveMult, ForceMode.Force);
 	}
 
 	private void manageStamina(){
@@ -69,16 +78,16 @@ public class PlayerMovement : MonoBehaviour{
 		}
 	}
 
-	
-	private void Start(){
-		rb = GetComponent<Rigidbody>();
-		rb.freezeRotation = true;
-		stamina = maxStamina;
+	private void updateSlider(){
+		slider.value = stamina / maxStamina;
 	}
+	
+
 	
 	private void Update(){
 		GetInput();
 		manageStamina();
+		updateSlider();
 		Debug.Log(stamina);
 	}
 

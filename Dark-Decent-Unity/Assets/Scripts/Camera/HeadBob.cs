@@ -11,11 +11,14 @@ public class HeadBob : MonoBehaviour{
     public bool enable = true;
     public float amplitude;
     public float frequency;
+    public float runningAmplitude;
+    public float runningFrequency;
 
-     [Header("Transforms n shit")]
+    [Header("Transforms n shit")]
     public Transform cameraObject;
     public Transform cameraHolder;
-    public Rigidbody playerRigidBody;
+    public GameObject player;
+    private Rigidbody playerRigidBody;
 
     private float toggleSpeed = 0.01f;
     private Vector3 startPos;
@@ -23,14 +26,22 @@ public class HeadBob : MonoBehaviour{
 
     private void Awake(){
         startPos = cameraObject.localPosition;
+        playerRigidBody = player.GetComponent<Rigidbody>();
     }
 
     
     private Vector3 FootStepMotion(){
-        Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * frequency) * amplitude;
-        pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
-        return pos;
+        if (player.GetComponent<PlayerMovement>().running == false) {
+            Vector3 pos = Vector3.zero;
+            pos.y += Mathf.Sin(Time.time * frequency) * amplitude;
+            pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
+            return pos;
+        } else {
+            Vector3 pos = Vector3.zero;
+            pos.y += Mathf.Sin(Time.time * runningFrequency) * runningAmplitude;
+            pos.x += Mathf.Cos(Time.time * runningFrequency / 2) * runningAmplitude * 2;
+            return pos;
+        }
     }
 
     private void PlayMotion(Vector3 motion){
@@ -41,7 +52,7 @@ public class HeadBob : MonoBehaviour{
 
         if (speed < toggleSpeed) return;
         // if (rigidBody is grounded) return;
-
+        
         PlayMotion(FootStepMotion());
     }
 
