@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour{
 	public bool CanMove;
 	public float moveSpeed;
 	public float maxSpeed;
+	public bool running;
 
 	private float horizontalInput;
 	private float verticalInput;
@@ -22,13 +23,10 @@ public class PlayerMovement : MonoBehaviour{
 	private float staminaLossRate = 0.8f;
 	private float staminaGainRate = 0.4f;
 	private float stamina;
-	public bool running;
-
-	public GameObject staminaSlider;
-	private Slider slider;
 	
 	public Transform orientation;
-	
+	public GameObject staminaSlider;
+	private Slider slider;
 	private Rigidbody rb;
 	
 	private void Start(){
