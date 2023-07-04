@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1779b471-54c6-4ffe-91ff-b283ccd0301f" name="Changes" comment="finished held item lagging behind">
+    <list default="true" id="1779b471-54c6-4ffe-91ff-b283ccd0301f" name="Changes" comment="added fottstep">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Dark-Decent-Unity/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Dark-Decent-Unity/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/plr.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/plr.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/HeadBob.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Camera/HeadBob.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +16,9 @@
     <setting file="mock://D:/Documents/GitHub/dark-decent/Dark-Decent-Unity/Assets/Scenes/Movement.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://D:/Documents/GitHub/dark-decent/Dark-Decent-Unity/Assets/Scripts/Camera/Camera Movement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Camera/HeadBob.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Documents/GitHub/dark-decent/Dark-Decent-Unity/Assets/Scripts/Camera/HeadBob.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/Player Movement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/soundEmitter.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectId" id="2Rc2GvBxvbSdk7MdVoy7ZSRbqPn" />
@@ -95,7 +95,7 @@
       <workItem from="1687534963515" duration="13901000" />
       <workItem from="1688309773758" duration="7392000" />
       <workItem from="1688392773718" duration="5992000" />
-      <workItem from="1688484621850" duration="10218000" />
+      <workItem from="1688484621850" duration="11244000" />
     </task>
     <task id="LOCAL-00001" summary="betterised head bobbing">
       <created>1687539129431</created>
@@ -153,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688495772759</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added fottstep">
+      <created>1688500646674</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1688500646674</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,6 +190,7 @@
     <MESSAGE value="created plr &quot;PREFAB&quot;" />
     <MESSAGE value="fuck this imma do it later" />
     <MESSAGE value="finished held item lagging behind" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished held item lagging behind" />
+    <MESSAGE value="added fottstep" />
+    <option name="LAST_COMMIT_MESSAGE" value="added fottstep" />
   </component>
 </project>
