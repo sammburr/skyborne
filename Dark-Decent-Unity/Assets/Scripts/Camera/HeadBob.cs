@@ -33,6 +33,7 @@ public class HeadBob : MonoBehaviour{
     private Vector3 FootStepMotion(){
         if (player.GetComponent<PlayerMovement>().running == false) {
             Vector3 pos = Vector3.zero;
+            Debug.Log(Mathf.Sin(Time.time * frequency) * amplitude);
             pos.y += Mathf.Sin(Time.time * frequency) * amplitude;
             pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
             return pos;
@@ -58,7 +59,7 @@ public class HeadBob : MonoBehaviour{
 
     private void ResetPosition(){
         if (cameraObject.localPosition == startPos) return;
-        cameraObject.localPosition = Vector3.Lerp(cameraObject.localPosition, startPos, 5f * Time.deltaTime);
+        cameraObject.localPosition = Vector3.Lerp(cameraObject.localPosition, startPos, 0.1f);
     }
 
     private Vector3 FocusTarget(){

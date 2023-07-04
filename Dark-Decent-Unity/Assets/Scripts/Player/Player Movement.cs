@@ -20,8 +20,8 @@ public class PlayerMovement : MonoBehaviour{
 	private bool shiftInput;
 
 	private float maxStamina = 1000;
-	private float staminaLossRate = 0.8f;
-	private float staminaGainRate = 0.4f;
+	private float staminaLossRate = 80f;
+	private float staminaGainRate = 40f;
 	private float stamina;
 	
 	public Transform orientation;
@@ -62,14 +62,14 @@ public class PlayerMovement : MonoBehaviour{
 	private void manageStamina(){
 		if (shiftInput) {
 			if (stamina > 0 + staminaLossRate) {
-				stamina -= staminaLossRate;
+				stamina -= staminaLossRate * Time.deltaTime;
 			} else {
 				stamina = 0;
 			} 
 		}
 		else {
 			if (stamina < maxStamina - staminaGainRate) {
-				stamina += staminaGainRate;
+				stamina += staminaGainRate * Time.deltaTime;
 			} else {
 				stamina = maxStamina;
 			}
@@ -86,7 +86,7 @@ public class PlayerMovement : MonoBehaviour{
 		GetInput();
 		manageStamina();
 		updateSlider();
-		Debug.Log(stamina);
+		//Debug.Log(stamina);
 	}
 
 	private void FixedUpdate(){
