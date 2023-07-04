@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -23,26 +24,52 @@ public class HeadBob : MonoBehaviour{
     private float toggleSpeed = 0.01f;
     private Vector3 startPos;
 
+    private bool descending;
+    private float preVal;
+    private float curVal;
+    public AudioSource footstepSource;
+    public AudioClip footstepSound;
+    private float footstepToggleSpeed = 1f;
 
     private void Awake(){
         startPos = cameraObject.localPosition;
         playerRigidBody = player.GetComponent<Rigidbody>();
+        descending = false;
     }
 
-    
+    private void PlayFootstep(){
+        footstepSource.PlayOneShot(footstepSound);
+    }
+
     private Vector3 FootStepMotion(){
+        Vector3 pos = Vector3.zero;
         if (player.GetComponent<PlayerMovement>().running == false) {
-            Vector3 pos = Vector3.zero;
-            Debug.Log(Mathf.Sin(Time.time * frequency) * amplitude);
+            curVal = Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
             pos.y += Mathf.Sin(Time.time * frequency) * amplitude;
-            pos.x += Mathf.Cos(Time.time * frequency / 2) * amplitude * 2;
-            return pos;
-        } else {
-            Vector3 pos = Vector3.zero;
-            pos.y += Mathf.Sin(Time.time * runningFrequency) * runningAmplitude;
-            pos.x += Mathf.Cos(Time.time * runningFrequency / 2) * runningAmplitude * 2;
-            return pos;
+            pos.x += curVal;
         }
+        else {
+            curVal = Mathf.Cos(Time.time * runningFrequency / 2) * runningAmplitude * 2;
+            pos.y += Mathf.Sin(Time.time * runningFrequency) * runningAmplitude;
+            pos.x += curVal;
+        }
+
+        float speed = new Vector3(playerRigidBody.velocity.x, 0, playerRigidBody.velocity.z).magnitude;
+
+        if (speed > footstepToggleSpeed) {
+            if (curVal > preVal && descending == true) {
+                descending = false;
+                PlayFootstep();
+            }
+            else if (curVal < preVal && descending == false) {
+                descending = true;
+                PlayFootstep();
+            }
+        }
+
+        preVal = curVal;
+        
+        return pos;
     }
 
     private void PlayMotion(Vector3 motion){
